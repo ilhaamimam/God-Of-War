@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>God of War – Kratos (Single Page)</title>
+  <meta name="description" content="A one‑page, God of War–themed website about Kratos featuring an epic hero section, navbar, slideshow gallery, and themed sections." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0a0b;          /* deep black */
+      --bg-soft:#101014;     /* softer panel */
+      --ink:#e3e3e7;         /* light text */
+      --muted:#a3a3ad;       /* muted text */
+      --kratos:#c4201f;      /* Leviathan red */
+      --accent:#9a1b1a;      /* darker red */
+      --gold:#c6a664;        /* accent gold */
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; background:
+        radial-gradient(1200px 500px at 80% -50%, rgba(196,32,31,.25), transparent 60%),
+        radial-gradient(1200px 600px at -20% 10%, rgba(154,27,26,.25), transparent 60%),
+        linear-gradient(180deg, #0a0a0b 0%, #0a0a0b 40%, #0d0d11 100%);
+      color:var(--ink); font: 16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* NAVBAR */
+    .nav{
+      position:sticky; top:0; z-index:1000; backdrop-filter:saturate(120%) blur(6px);
+      background:linear-gradient(to right, rgba(10,10,11,.75), rgba(10,10,11,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav .wrap{max-width:1150px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:14px 18px}
+    .brand{display:flex; align-items:center; gap:12px; font-family:Cinzel, serif; letter-spacing:.06em}
+    .brand-logo{width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 30% 30%, var(--kratos), var(--accent)); box-shadow:inset 0 0 12px rgba(0,0,0,.45)}
+    .brand-logo svg{width:22px; height:22px; fill:#fff}
+    .brand h1{margin:0; font-size:18px}
+
+    .nav a{color:var(--ink); text-decoration:none; font-weight:600; opacity:.9}
+    .nav a:hover{opacity:1; color:#fff}
+    .links{display:flex; gap:18px; align-items:center}
+
+    /* HERO */
+    .hero{
+      position:relative; min-height:72vh; display:grid; place-items:center; text-align:center; overflow:hidden;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .hero::before{ /* background image overlay */
+      content:""; position:absolute; inset:0; z-index:-2;
+      background: url('images/kratos-hero.jpg') center/cover no-repeat fixed; /* ← replace with your image */
+      filter:saturate(105%) contrast(105%);
+    }
+    .hero::after{ /* dark + red vignette */
+      content:""; position:absolute; inset:0; z-index:-1;
+      background:
+        radial-gradient(70% 60% at 50% 30%, rgba(0,0,0,.15), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75));
+    }
+    .hero h2{font-family:Cinzel, serif; font-size:clamp(34px, 6vw, 64px); margin:0 12px .25em; letter-spacing:.06em}
+    .hero p{max-width:820px; margin:0 auto 18px; color:#e9e9ee}
+    .cta{display:inline-flex; gap:12px; align-items:center; padding:12px 18px; border-radius:999px; border:1px solid rgba(255,255,255,.15); background:linear-gradient(180deg, rgba(196,32,31,.15), rgba(154,27,26,.12)); box-shadow:var(--shadow)}
+    .cta:hover{transform:translateY(-1px)}
+
+    /* SECTIONS */
+    section{padding:60px 18px}
+    .wrap{max-width:1150px; margin:0 auto}
+    .k-card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); box-shadow:var(--shadow)}
+
+    /* STORY */
+    .story{display:grid; grid-template-columns: 1.15fr .85fr; gap:26px}
+    .story .art{min-height:320px; background:url('images/atreus.jpg') center/cover no-repeat; border-radius:var(--radius); border:1px solid rgba(255,255,255,.08)}
+    .eyebrow{color:var(--gold); font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:12px}
+    h3{font-family:Cinzel, serif; font-size:28px; margin:.4em 0 .6em}
+    .lead{color:#f0f0f5}
+
+    /* WEAPONS GRID */
+    .grid{display:grid; gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .weapon{padding:20px; transition:.25s transform ease}
+    .weapon:hover{transform:translateY(-4px)}
+    .weapon .thumb{height:160px; border-radius:14px; margin-bottom:12px; background-position:center; background-size:cover; border:1px solid rgba(255,255,255,.08)}
+    .tag{display:inline-block; padding:4px 10px; font-size:12px; border-radius:999px; color:#fff; background:linear-gradient(180deg, var(--kratos), var(--accent)); margin-bottom:8px}
+
+    /* SLIDESHOW */
+    .gallery{position:relative; overflow:hidden; border-radius:var(--radius); border:1px solid rgba(255,255,255,.08)}
+    .slides{display:flex; transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+    .slide{min-width:100%; height:420px; background:#000 center/cover no-repeat}
+    .controls{position:absolute; inset:auto 0 12px 0; display:flex; justify-content:center; gap:10px}
+    .dot{width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.45); border:1px solid rgba(255,255,255,.5); cursor:pointer}
+    .dot.active{background:var(--kratos)}
+    .arrow{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); width:40px; height:40px; border-radius:50%; display:grid; place-items:center; cursor:pointer}
+    .arrow:hover{background:rgba(0,0,0,.5)}
+    .arrow.left{left:12px} .arrow.right{right:12px}
+
+    /* QUOTES */
+    blockquote{margin:0; padding:24px; border-left:4px solid var(--kratos); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border-radius:12px}
+    blockquote p{font-size:18px; margin:0 0 6px}
+    blockquote cite{font-style:normal; color:var(--muted); font-size:14px}
+
+    /* FOOTER */
+    footer{padding:30px 18px 60px; color:var(--muted); text-align:center}
+
+    /* RESPONSIVE */
+    @media (max-width: 900px){
+      .story{grid-template-columns:1fr}
+      .grid.cols-3{grid-template-columns:1fr 1fr}
+      .slide{height:300px}
+    }
+    @media (max-width: 600px){
+      .links{display:none}
+      .grid.cols-3{grid-template-columns:1fr}
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .slides{transition:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav" aria-label="Primary">
+    <div class="wrap">
+      <a class="brand" href="#home" aria-label="Go to home">
+        <span class="brand-logo" aria-hidden="true">
+          <!-- Simple Spartan/omega mark -->
+          <svg viewBox="0 0 24 24" role="img" aria-label="Omega icon"><path d="M12 2c-4.97 0-9 4.03-9 9 0 3.3 1.79 6.18 4.45 7.72l-1.95 3.28h4.03l1.45-2.45c.66.1 1.33.15 2.02.15.69 0 1.36-.05 2.02-.15l1.45 2.45h4.03l-1.95-3.28A8.983 8.983 0 0 0 21 11c0-4.97-4.03-9-9-9zm0 4c2.76 0 5 2.24 5 5 0 1.91-1.08 3.57-2.66 4.42-.96.52-2.74.58-2.74.58s-1.78-.06-2.74-.58A4.994 4.994 0 0 1 7 11c0-2.76 2.24-5 5-5z"/></svg>
+        </span>
+        <h1>GOD OF WAR: KRATOS</h1>
+      </a>
+      <div class="links" role="navigation">
+        <a href="#story">Story</a>
+        <a href="#weapons">Weapons</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#quotes">Quotes</a>
+        <a href="#credits">Credits</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home" role="img" aria-label="Hero image of Kratos with God of War theme">
+    <div class="wrap">
+      <h2>"We must be better."</h2>
+      <p class="lead">An ode to <strong>Kratos</strong> — the Ghost of Sparta, a warrior forged in tragedy and tempered by fatherhood. Explore his saga, the weapons he wields, and moments that made him a legend.</p>
+      <div style="margin-top:18px">
+        <a class="cta" href="#gallery" aria-label="Skip to gallery">View Gallery</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- STORY SECTION -->
+  <section id="story">
+    <div class="wrap story">
+      <div>
+        <span class="eyebrow">The Saga</span>
+        <h3>From Ghost of Sparta to Father of the North</h3>
+        <p>Once a Spartan commander bound to Ares, Kratos rose from betrayal and grief to challenge gods themselves. His journey winds from Olympus to the realms of Norse myth, where restraint and redemption reshape a brutal past. Side by side with his son, Atreus, he learns to temper rage with wisdom.</p>
+        <p class="muted">This fan page is a tribute and uses no official assets. Replace image placeholders with your own artwork or licensed images.</p>
+      </div>
+      <div class="art" aria-label="Artwork placeholder of Kratos & Atreus"></div>
+    </div>
+  </section>
+
+  <!-- WEAPONS SECTION -->
+  <section id="weapons">
+    <div class="wrap">
+      <span class="eyebrow">Arsenal</span>
+      <h3>Weapons of a God‑Slayer</h3>
+      <div class="grid cols-3">
+        <article class="weapon k-card">
+          <div class="thumb" style="background-image:url('images/leviathan-axe.jpg')" aria-label="Leviathan Axe image placeholder"></div>
+          <span class="tag">Leviathan Axe</span>
+          <p>Forged by Sindri & Brok, the axe cleaves enemies and returns at will. Frost‑laden strikes can freeze foes and reshape the battlefield.</p>
+        </article>
+        <article class="weapon k-card">
+          <div class="thumb" style="background-image:url('images/blades-of-chaos.jpg')" aria-label="Blades of Chaos image placeholder"></div>
+          <span class="tag">Blades of Chaos</span>
+          <p>Chains of burning memory. Their sweeping arcs and scorching combos embody Kratos’ past—and his will to rise above it.</p>
+        </article>
+        <article class="weapon k-card">
+          <div class="thumb" style="background-image:url('images/guardian-shield.jpg')" aria-label="Guardian Shield image placeholder"></div>
+          <span class="tag">Guardian Shield</span>
+          <p>A collapsible bulwark for parries and finishers. In the right hands, defense turns to devastating offense.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY / SLIDESHOW -->
+  <section id="gallery">
+    <div class="wrap">
+      <span class="eyebrow">Gallery</span>
+      <h3>Moments from the Journey</h3>
+      <div class="gallery k-card" aria-label="Slideshow of Kratos images">
+        <div class="slides" id="slides">
+          <!-- Replace the image URLs below with your own local files in /images or absolute URLs you have rights to use -->
+          <div class="slide" role="img" aria-label="Kratos close up" style="background-image:url('images/kratos1.jpg')"></div>
+          <div class="slide" role="img" aria-label="Kratos and Atreus" style="background-image:url('images/kratos2.jpg')"></div>
+          <div class="slide" role="img" aria-label="Battle stance" style="background-image:url('images/kratos3.jpg')"></div>
+        </div>
+        <button class="arrow left" id="prev" aria-label="Previous slide">&#10094;</button>
+        <button class="arrow right" id="next" aria-label="Next slide">&#10095;</button>
+        <div class="controls" id="dots" aria-label="Slideshow dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTES -->
+  <section id="quotes">
+    <div class="wrap">
+      <span class="eyebrow">Words to Remember</span>
+      <h3>Quotes</h3>
+      <blockquote class="k-card">
+        <p>“Don’t be sorry. Be better.”</p>
+        <cite>— Kratos</cite>
+      </blockquote>
+      <div style="height:14px"></div>
+      <blockquote class="k-card">
+        <p>“The cycle ends here. We must be better than this.”</p>
+        <cite>— Kratos</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- CREDITS / FOOTER -->
+  <section id="credits">
+    <div class="wrap">
+      <span class="eyebrow">Credits</span>
+      <h3>Fan‑Made Page</h3>
+      <p>This is a <strong>fan project</strong> for educational and personal use. All trademarks and game titles are property of their respective owners. Replace placeholder images in the <code>images/</code> folder with your own artwork, screenshots you’re allowed to share, or licensed stock.</p>
+    </div>
+  </section>
+
+  <footer>
+    Crafted with fury & focus • <span aria-label="Kratos red">&#x1F534;</span>
+  </footer>
+
+  <script>
+    // Simple, accessible slideshow
+    (function(){
+      const slides = document.getElementById('slides');
+      const dotsWrap = document.getElementById('dots');
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      const total = slides.children.length;
+      let index = 0, timer;
+
+      function renderDots(){
+        for(let i=0;i<total;i++){
+          const d = document.createElement('button');
+          d.className = 'dot' + (i===0?' active':'');
+          d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+          d.addEventListener('click', ()=> go(i));
+          dotsWrap.appendChild(d);
+        }
+      }
+
+      function update(){
+        slides.style.transform = `translateX(${-index*100}%)`;
+        [...dotsWrap.children].forEach((dot,i)=>{
+          dot.classList.toggle('active', i===index);
+        });
+      }
+      function go(i){ index = (i+total)%total; update(); restart(); }
+      function nextSlide(){ go(index+1); }
+
+      function autoplay(){ timer = setInterval(nextSlide, 5000); }
+      function stop(){ clearInterval(timer); }
+      function restart(){ stop(); autoplay(); }
+
+      prev.addEventListener('click', ()=> go(index-1));
+      next.addEventListener('click', ()=> go(index+1));
+      slides.addEventListener('mouseenter', stop);
+      slides.addEventListener('mouseleave', autoplay);
+
+      renderDots(); update(); autoplay();
+    })();
+  </script>
+</body>
+</html>
